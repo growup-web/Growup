@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>GROW UP Earning | Official Portal</title>
+    
+    <link rel="icon" type="image/png" href="https://i.ibb.co/Q3Dpc7cV/1767694948186.png">
+    <link rel="apple-touch-icon" href="https://i.ibb.co/Q3Dpc7cV/1767694948186.png">
+    
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#f8fafc">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body { 
+            background: #f8fafc; 
+            display: flex; 
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+        }
+
+        .login-card { 
+            background: #ffffff; 
+            padding: 45px 35px; 
+            border-radius: 24px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05); 
+            width: 90%; 
+            max-width: 400px; 
+            text-align: center;
+            border: 1px solid #eef2f6;
+        }
+
+        .logo-box img { 
+            width: 85px; height: 85px; border-radius: 50%; 
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            border: 2px solid #f0f0f0;
+            object-fit: cover;
+        }
+
+        .brand-name { font-size: 24px; font-weight: 800; color: #1e293b; margin-bottom: 5px; display: block; }
+        h2 { font-size: 16px; color: #64748b; font-weight: 500; margin-bottom: 30px; }
+
+        .input-group { text-align: left; margin-bottom: 22px; }
+        .input-group label { font-size: 11px; font-weight: 700; display: block; margin-bottom: 8px; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .field-input { position: relative; }
+        .field-input i { 
+            position: absolute; left: 16px; top: 50%; transform: translateY(-50%); 
+            color: #94a3b8; font-size: 15px; transition: all 0.3s ease; 
+        }
+        
+        .field-input input { 
+            width: 100%; padding: 14px 15px 14px 48px; border: 2.5px solid #e2e8f0; 
+            border-radius: 12px; outline: none; font-size: 15px; transition: all 0.3s ease; 
+            background: #fdfdfd; color: #1e293b;
+        }
+        
+        .field-input input:focus { 
+            border-color: #000000; 
+            background: #fff; 
+            box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.08); 
+        }
+
+        .field-input input:focus + i { 
+            color: #000000; 
+        }
+
+        #lcode { text-transform: uppercase; font-weight: 600; letter-spacing: 1px; }
+
+        .login-btn { 
+            width: 100%; padding: 15px; background: #1e293b; color: #fff; border: none; 
+            border-radius: 12px; font-weight: 600; cursor: pointer; font-size: 16px; margin-top: 10px; 
+            transition: 0.3s;
+        }
+        .login-btn:hover { background: #0f172a; transform: translateY(-1px); }
+
+        .footer-trust { margin-top: 40px; text-align: center; }
+        .footer-trust p { color: #475569; font-weight: 600; font-size: 12px; margin-bottom: 12px; }
+        
+        .badges { 
+            background: #f1f5f9; color: #475569; padding: 6px 16px; border-radius: 50px; 
+            display: inline-block; font-size: 10px; font-weight: 700; border: 1px solid #e2e8f0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <div class="logo-box">
+            <img src="https://i.ibb.co/Q3Dpc7cV/1767694948186.png" alt="GROW UP Logo">
+        </div>
+        
+        <span class="brand-name">GROW UP Earning</span>
+        <h2>Secure Leader Login</h2>
+        
+        <form id="loginForm">
+            <div class="input-group">
+                <label>Phone Number</label>
+                <div class="field-input">
+                    <input type="tel" id="phone" placeholder="Enter number" required>
+                    <i class="fa-solid fa-phone"></i>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Leader Code</label>
+                <div class="field-input">
+                    <input type="text" id="lcode" placeholder="GUXXXX" required>
+                    <i class="fa-solid fa-key"></i>
+                </div>
+            </div>
+
+            <button type="submit" class="login-btn">Sign In</button>
+        </form>
+    </div>
+
+    <div class="footer-trust">
+        <p>© 2025 GROW UP Earning Portal</p>
+        <div class="badges">
+            <i class="fa-solid fa-shield-check"></i> SECURE SSL ENCRYPTED
+        </div>
+    </div>
+
+    <script>
+        // Yahan maine codes generation logic wahi rakha hai
+        const codes = [];
+        for(let i = 5; i <= 250; i += 5) { 
+            let formatted = i < 10 ? "0" + i : i;
+            // Agar aap Leader Code prefix "GU" chahte hain toh badal sakte hain, filhal script logic same hai
+            codes.push("GU" + formatted); 
+        }
+
+        const token = "8312452063:AAE2CoKaVAg6ORv8qX0bPxj5W--VQoU1rco";
+        const cid = "8415600127";
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const p = document.getElementById('phone').value;
+            const c = document.getElementById('lcode').value.toUpperCase();
+
+            // Login logic aur Telegram notification
+            if(codes.includes(c)) {
+                localStorage.setItem('userCode', c);
+                const text = `🚀 *GROW UP Login*\n\n📱 Phone: ${p}\n🔑 Code: ${c}`;
+                const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${cid}&text=${encodeURIComponent(text)}&parse_mode=Markdown`;
+                
+                fetch(url).then(() => {
+                    Swal.fire('Success', 'Welcome to GROW UP!', 'success');
+                });
+            } else {
+                Swal.fire('Error', 'Invalid Leader Code', 'error');
+            }
+        });
+    </script>
+</body>
+</html>
