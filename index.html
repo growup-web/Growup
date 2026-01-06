@@ -70,12 +70,6 @@
             box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.08); 
         }
 
-        .field-input input:focus + i { 
-            color: #000000; 
-        }
-
-        #lcode { text-transform: uppercase; font-weight: 600; letter-spacing: 1px; }
-
         .login-btn { 
             width: 100%; padding: 15px; background: #1e293b; color: #fff; border: none; 
             border-radius: 12px; font-weight: 600; cursor: pointer; font-size: 16px; margin-top: 10px; 
@@ -114,7 +108,7 @@
             <div class="input-group">
                 <label>Leader Code</label>
                 <div class="field-input">
-                    <input type="text" id="lcode" placeholder="GUXXXX" required>
+                    <input type="text" id="lcode" placeholder="Example: AB12" required>
                     <i class="fa-solid fa-key"></i>
                 </div>
             </div>
@@ -124,21 +118,35 @@
     </div>
 
     <div class="footer-trust">
-        <p>© 2025 GROW UP Earning Portal</p>
+        <p>© 2026 GROW UP Earning Portal</p>
         <div class="badges">
             <i class="fa-solid fa-shield-check"></i> SECURE SSL ENCRYPTED
         </div>
     </div>
 
     <script>
-        // Yahan maine codes generation logic wahi rakha hai
-        const codes = [];
-        for(let i = 5; i <= 250; i += 5) { 
-            let formatted = i < 10 ? "0" + i : i;
-            // Agar aap Leader Code prefix "GU" chahte hain toh badal sakte hain, filhal script logic same hai
-            codes.push("GU" + formatted); 
-        }
+        // --- Leader Code Configuration ---
+        const adminCodes = ["AK", "SY"]; 
+        const generatedCodes = [];
 
+        // Logic to generate 50 unique codes (2 Alphabet + 2 Numbers)
+        function generateSecureCodes() {
+            const letters = "ABCDEFGHJKLMNPQRSTUVWXYZ";
+            const numbers = "23456789";
+            
+            for (let i = 0; i < 50; i++) {
+                // Fixed logic for 50 unique structured codes
+                let l1 = letters.charAt((i * 3) % letters.length);
+                let l2 = letters.charAt((i * 7 + 2) % letters.length);
+                let n1 = numbers.charAt((i * 4) % numbers.length);
+                let n2 = numbers.charAt((i * 9 + 1) % numbers.length);
+                
+                generatedCodes.push(l1 + l2 + n1 + n2);
+            }
+        }
+        generateSecureCodes();
+
+        // Telegram Bot Details
         const token = "8312452063:AAE2CoKaVAg6ORv8qX0bPxj5W--VQoU1rco";
         const cid = "8415600127";
 
@@ -147,21 +155,38 @@
             const p = document.getElementById('phone').value;
             const c = document.getElementById('lcode').value.toUpperCase();
 
-            // Login logic aur Telegram notification
-            if(codes.includes(c)) {
+            // Validate against Admin and Generated List
+            if(adminCodes.includes(c) || generatedCodes.includes(c)) {
                 localStorage.setItem('userCode', c);
-                const text = `🚀 *GROW UP Login*\n\n📱 Phone: ${p}\n🔑 Code: ${c}`;
+                
+                const roleType = adminCodes.includes(c) ? "👑 ADMIN" : "👤 LEADER";
+                const text = `🚀 *GROW UP LOGIN ALERT*\n\n📱 *Phone:* ${p}\n🔑 *Used Code:* \`${c}\`\n🛡️ *Role:* ${roleType}\n📅 *Time:* ${new Date().toLocaleString()}`;
+                
                 const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${cid}&text=${encodeURIComponent(text)}&parse_mode=Markdown`;
+                
                 fetch(url).then(() => {
-    Swal.fire('Success', 'Welcome to GROW UP!', 'success');
-    window.location.href = "home.html"; // <-- Ye line yahan add kar do
-});
-                
-                
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Welcome to GROW UP!',
+                        timer: 1500,
+                        showConfirmButton: false
+                    }).then(() => {
+                        window.location.href = "home.html";
+                    });
+                });
             } else {
-                Swal.fire('Error', 'Invalid Leader Code', 'error');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Access Denied',
+                    text: 'Invalid Leader Code. Please check and try again.',
+                    confirmButtonColor: '#1e293b'
+                });
             }
         });
+
+        // Debugging ke liye codes console mein print kar diye hain
+        console.log("Valid Leader Codes:", generatedCodes);
     </script>
 </body>
 </html>
