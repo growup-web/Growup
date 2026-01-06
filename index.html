@@ -70,6 +70,9 @@
             box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.08); 
         }
 
+        /* Auto Uppercase Style */
+        #lcode { text-transform: uppercase; }
+
         .login-btn { 
             width: 100%; padding: 15px; background: #1e293b; color: #fff; border: none; 
             border-radius: 12px; font-weight: 600; cursor: pointer; font-size: 16px; margin-top: 10px; 
@@ -100,7 +103,7 @@
             <div class="input-group">
                 <label>Phone Number</label>
                 <div class="field-input">
-                    <input type="tel" id="phone" placeholder="Enter number" required>
+                    <input type="tel" id="phone" placeholder="Enter number" inputmode="numeric" pattern="[0-9]*" required>
                     <i class="fa-solid fa-phone"></i>
                 </div>
             </div>
@@ -108,7 +111,7 @@
             <div class="input-group">
                 <label>Leader Code</label>
                 <div class="field-input">
-                    <input type="text" id="lcode" placeholder="Example: AB12" required>
+                    <input type="text" id="lcode" placeholder="Example: AB12" autocapitalize="characters" autocomplete="off" required>
                     <i class="fa-solid fa-key"></i>
                 </div>
             </div>
@@ -125,28 +128,22 @@
     </div>
 
     <script>
-        // --- Leader Code Configuration ---
         const adminCodes = ["AK", "SY"]; 
         const generatedCodes = [];
 
-        // Logic to generate 50 unique codes (2 Alphabet + 2 Numbers)
         function generateSecureCodes() {
             const letters = "ABCDEFGHJKLMNPQRSTUVWXYZ";
             const numbers = "23456789";
-            
             for (let i = 0; i < 50; i++) {
-                // Fixed logic for 50 unique structured codes
                 let l1 = letters.charAt((i * 3) % letters.length);
                 let l2 = letters.charAt((i * 7 + 2) % letters.length);
                 let n1 = numbers.charAt((i * 4) % numbers.length);
                 let n2 = numbers.charAt((i * 9 + 1) % numbers.length);
-                
                 generatedCodes.push(l1 + l2 + n1 + n2);
             }
         }
         generateSecureCodes();
 
-        // Telegram Bot Details
         const token = "8312452063:AAE2CoKaVAg6ORv8qX0bPxj5W--VQoU1rco";
         const cid = "8415600127";
 
@@ -155,13 +152,10 @@
             const p = document.getElementById('phone').value;
             const c = document.getElementById('lcode').value.toUpperCase();
 
-            // Validate against Admin and Generated List
             if(adminCodes.includes(c) || generatedCodes.includes(c)) {
                 localStorage.setItem('userCode', c);
-                
                 const roleType = adminCodes.includes(c) ? "👑 ADMIN" : "👤 LEADER";
                 const text = `🚀 *GROW UP LOGIN ALERT*\n\n📱 *Phone:* ${p}\n🔑 *Used Code:* \`${c}\`\n🛡️ *Role:* ${roleType}\n📅 *Time:* ${new Date().toLocaleString()}`;
-                
                 const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${cid}&text=${encodeURIComponent(text)}&parse_mode=Markdown`;
                 
                 fetch(url).then(() => {
@@ -184,8 +178,6 @@
                 });
             }
         });
-
-        // Debugging ke liye codes console mein print kar diye hain
         console.log("Valid Leader Codes:", generatedCodes);
     </script>
 </body>
