@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Leader Code | GROW UP</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background: #f8fafc; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .card { background: #fff; padding: 35px; border-radius: 28px; box-shadow: 0 15px 35px rgba(0,0,0,0.06); width: 90%; max-width: 380px; text-align: center; }
+        input { width: 100%; padding: 15px; border: 2px solid #e2e8f0; border-radius: 12px; margin-top: 15px; outline: none; }
+        .btn { width: 100%; padding: 16px; background: #1e293b; color: #fff; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; margin-top: 20px; }
+        #result { display: none; margin-top: 20px; padding: 20px; background: #f1f5f9; border-radius: 15px; border: 2px dashed #cbd5e1; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <img src="https://i.ibb.co/Q3Dpc7cV/1767694948186.png" style="width:70px; border-radius:50%; margin-bottom:10px;">
+        <h2>Get Leader Code</h2>
+        <div id="regForm">
+            <input type="text" id="name" placeholder="Full Name">
+            <input type="tel" id="phone" placeholder="WhatsApp Number">
+            <button class="btn" onclick="registerUser()" id="subBtn">Get My Code</button>
+        </div>
+        <div id="result">
+            <p style="font-size: 12px; color: #64748b;">Aapka Code (Status: PENDING):</p>
+            <h1 id="userCode" style="font-size: 32px; color: #1e293b; margin: 10px 0;"></h1>
+            <p style="color: #ef4444; font-size: 11px; font-weight: 600;">Admin ke approve karne ke baad hi login hoga!</p>
+            <button class="btn" onclick="window.location.href='index.html'" style="background:#10b981;">Go to Login</button>
+        </div>
+    </div>
+
+<script>
+    const DB_URL = "https://leader-b14de-default-rtdb.firebaseio.com";
+    const codes = ["AI74","WY78","WJ95","YL99","BK42","OP10","RX56","ZM88","LQ31","KT67","DH12","GS56","PL09","MN34","XC67","VB89","QW21","ER43","TY65","UI87","AS11","DF22","GH33","JK44","LZ55","XC66","VB77","NM88","QO99","WP12","ER23","RT34","YU45","IO56","PA67","SD78","FG89","HJ90","KL11","ZX22","CV33","BN44","MQ55","WE66","RT77","YU88","IO99","PA10","SD21","FG32","HJ43","KL54","ZX65","CV76","BN87","MQ98","WA11","SE22","DR33","FT44","GY55","HU66","JI77","KO88","LP99","AZ12","SX23","DC34","FV45","GB56","HN67","JM78","KK89","LO90","QP11","WO22","EI33","RU44","TY55","YI66","OU77","PI88","SA99","DL10","FK21","GJ32","HM43","JN54","KB65","LV76","CX87","BZ98","MA11","SW22","DE33","FR44","GT55","HY66","JU77","KI88","LO99","ZA10","XS21","CD32","VF43","BG54","NH65","MJ76","KU87","LY98","XW11","QE22","RT33","YU44","IO55","PA66","SD77","FG88","HJ99","KL10","ZX21","CV32","BN43","MQ54","WE65","RT76","YU87","IO98","PA11","SD22","FG33","HJ44","KL55","ZX66","CV77","BN88","MQ99","WA10","SE21","DR32","FT43","GY54","HU65","JI76","KO87","LP98","AZ11","SX22","DC33","FV44","GB55","HN66","JM77","KK88","LO99","QP10","WO21","EI32","RU43","TY54","YI65","OU76","PI87","SA98","DL99","FK11","GJ22","HM33","JN44","KB55","LV66","CX77","BZ88","MA99","SW10","DE21","FR32","GT43","HY54","JU65","KI76","LO87","ZA98","XS11","CD22","VF33","BG44","NH55","MJ66","KU77","LY88","XW99","QE10","RT21","YU32","IO43","PA54","SD65","FG76","HJ87"];
+
+    async function registerUser() {
+        const name = document.getElementById('name').value;
+        const phone = document.getElementById('phone').value;
+        if(!name || !phone) return Swal.fire('Error', 'Details bhariye!', 'error');
+
+        const btn = document.getElementById('subBtn');
+        btn.disabled = true;
+
+        const countRes = await fetch(`${DB_URL}/counter.json`);
+        let count = await countRes.json() || 0;
+        const assignedCode = codes[count];
+
+        // Save data with PENDING status
+        await fetch(`${DB_URL}/users/${assignedCode}.json`, {
+            method: 'PUT',
+            body: JSON.stringify({ name, phone, status: "PENDING" })
+        });
+        await fetch(`${DB_URL}/counter.json`, { method: 'PUT', body: JSON.stringify(count + 1) });
+
+        // Telegram Notification
+        const msg = `⏳ *PENDING APPROVAL*\n\n👤 *Name:* ${name}\n📱 *Phone:* ${phone}\n🔑 *Code:* \`${assignedCode}\`\n\nApprove karne ke liye Admin Panel use karein.`;
+        fetch(`https://api.telegram.org/bot8312452063:AAE2CoKaVAg6ORv8qX0bPxj5W--VQoU1rco/sendMessage?chat_id=8415600127&text=${encodeURIComponent(msg)}&parse_mode=Markdown`);
+
+        document.getElementById('regForm').style.display = 'none';
+        document.getElementById('result').style.display = 'block';
+        document.getElementById('userCode').innerText = assignedCode;
+    }
+</script>
+</body>
+</html>
