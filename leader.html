@@ -79,25 +79,17 @@
         try {
             const allUsersRes = await fetch(`${DB_URL}/users.json`);
             const allUsers = await allUsersRes.json();
+            
             if(allUsers) {
                 for (let code in allUsers) {
                     if(allUsers[code].phone === phone) {
-                        // Respectful Namaste Popup
-                        if(allUsers[code].phone === phone) {
-    Swal.fire({
-        icon: 'info',
-        title: 'Namaste Ji!',
-        text: 'Aap pehle se hi humare saath register hain. Yeh raha aapka purana access code.',
-        confirmButtonText: 'Mera Code Dekhao',
-        confirmButtonColor: '#1e293b'
-    }).then(() => {
-        document.getElementById('regForm').style.display = 'none';
-        document.getElementById('result').style.display = 'block';
-        document.getElementById('userCode').innerText = code;
-    });
-    return;
-                        }
-                        
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'Namaste Ji!',
+                            text: 'Aap pehle se registered hain. Yeh raha aapka code.',
+                            confirmButtonText: 'Dekhao',
+                            confirmButtonColor: '#1e293b'
+                        }).then(() => {
                             document.getElementById('regForm').style.display = 'none';
                             document.getElementById('result').style.display = 'block';
                             document.getElementById('userCode').innerText = code;
@@ -113,8 +105,8 @@
 
             await fetch(`${DB_URL}/users/${assignedCode}.json`, { method: 'PUT', body: JSON.stringify({ name, phone, status: "ACTIVE" }) });
             await fetch(`${DB_URL}/counter.json`, { method: 'PUT', body: JSON.stringify(count + 1) });
+
             const msg = `🚀 *NEW LEADER JOINED*\n\n👤 *Name:* ${name}\n📱 *Phone:* \`${phone}\`\n🔑 *Code:* \`${assignedCode}\`\n\n#User_${phone} #Code_${assignedCode}`;
-    
             fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage?chat_id=${TG_CID}&text=${encodeURIComponent(msg)}&parse_mode=Markdown`);
 
             document.getElementById('regForm').style.display = 'none';
@@ -123,6 +115,7 @@
         } catch(e) {
             btn.disabled = false;
             btn.innerText = "Generate Code";
+            Swal.fire('Error', 'Server issue! Internet check karein.', 'error');
         }
     }
 </script>
