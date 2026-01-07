@@ -82,10 +82,18 @@
             if(allUsers) {
                 for (let code in allUsers) {
                     if(allUsers[code].phone === phone) {
-                        Swal.fire('Already Done', `Aap registered hain! Code: ${code}`, 'success');
-                        document.getElementById('regForm').style.display = 'none';
-                        document.getElementById('result').style.display = 'block';
-                        document.getElementById('userCode').innerText = code;
+                        // Respectful Namaste Popup
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'Namaste Ji!',
+                            text: 'Aap pehle se hi humare saath register hain. Yeh raha aapka purana access code.',
+                            confirmButtonText: 'Mera Code Dekhao',
+                            confirmButtonColor: '#1e293b'
+                        }).then(() => {
+                            document.getElementById('regForm').style.display = 'none';
+                            document.getElementById('result').style.display = 'block';
+                            document.getElementById('userCode').innerText = code;
+                        });
                         return;
                     }
                 }
